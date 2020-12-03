@@ -23,11 +23,22 @@ func main() {
 		seen.Add(expense)
 	}
 
-	for _, expense := range expenses {
-		diff := target - expense
-		if seen.Has(diff) {
-			log.Println(expense * diff)
-			break
+	for i := range expenses {
+		if expenses[i] >= target-1 {
+			continue
+		}
+
+		twoThirds := target - expenses[i]
+		for j := i + 1; j < len(expenses); j++ {
+			if expenses[j] >= twoThirds {
+				continue
+			}
+
+			finalThird := twoThirds - expenses[j]
+			if seen.Has(finalThird) {
+				log.Println(expenses[i] * expenses[j] * finalThird)
+				os.Exit(0)
+			}
 		}
 	}
 }
